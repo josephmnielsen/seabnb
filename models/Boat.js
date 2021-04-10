@@ -16,7 +16,7 @@ const Boat = new Schema({
   sleeps: {
     type: String,
     required: true
-  }
+  },
   description: {
     type: String,
     required: true

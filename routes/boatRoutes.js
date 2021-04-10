@@ -24,8 +24,8 @@ router.post('/boats', (req, res) => {
 
 // update boat
 router.put('/boats/:id', (req, res) => {
-  Boat.findByIdAndUpdate(req.body)
-    .then(boat => res.json(boat))
+  Boat.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.sendStatus(200))
     .catch(err => console.log(err))
 })
 
@@ -36,3 +36,5 @@ router.delete('/boats/:id', (req, res) => {
     .catch(err => console.log(err))
 
 })
+
+module.exports = router

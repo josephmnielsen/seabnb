@@ -9,7 +9,7 @@ router.get('/users', (req, res) => {
 })
 
 // get one user
-router.get('/users/:id'(req, reds) => {
+router.get('/users/:id', (req, res) => {
   User.findById(req.params.id)
     .then(boats => res.json(boats))
     .catch(err => console.log(err))
@@ -24,8 +24,8 @@ router.post('/users', (req, res) => {
 
 // update user
 router.put('/users/:id', (req, res) => {
-  User.findByIdAndUpdate(req.body)
-    .then(user => res.json(user))
+  User.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.sendStatus(200))
     .catch(err => console.log(err))
 })
 
@@ -35,3 +35,5 @@ router.delete('/users/:id', (req, res) => {
     .then(() => res.sendStatus(200))
     .catch(err => console.log(err))
 })
+
+module.exports = router
