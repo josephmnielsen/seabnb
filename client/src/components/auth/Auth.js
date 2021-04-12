@@ -8,15 +8,20 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './styles'
 import Input from './Input'
 
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', repeatPassword: ''}
+
 const Auth = () => {
   const classes = useStyles()
   const [showPassword, setShowPassword] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
+  const[formData, setFormData] = useState(initialState)
   const dispatch = useDispatch
   const history = useHistory
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+   
 
   }
   const switchMode = () => {
@@ -27,16 +32,16 @@ const Auth = () => {
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
   const googleSuccess = async (res) => {
-    const result = res?.profileObj
-    const token = res?.tokenId
+    // const result = res?.profileObj
+    // const token = res?.tokenId
 
-    try {
-      dispatch({ type: 'AUTH', data: { result, token } })
+    // try {
+      // dispatch({ type: 'AUTH', data: { result, token } })
 
-      history.push('/')
-    } catch (error) {
-      console.log(error)
-    }
+      // history.push('/')
+    // } catch (error) {
+      // console.log(error)
+    // }
 
   }
 
@@ -44,10 +49,10 @@ const Auth = () => {
     console.log("Google sign in failed")
   }
 
-  const handleChange = () => {
-
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
   }
-
+    console.log(formData)
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -60,7 +65,7 @@ const Auth = () => {
             { isSignup && (
               <>
                 <Input name="firstName" label="First Name" handleChange={handleChange} half />
-                <Input name="firstName" label="First Name" handleChange={handleChange} half />
+                <Input name="lastName" label="Last Name" handleChange={handleChange} half />
               </>
             )}
             <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
@@ -74,14 +79,15 @@ const Auth = () => {
             clientId="250651538225-vca2tmunmavopnis9cb9upcmkk2ognh5.apps.googleusercontent.com"
             render={(renderProps) => (
               <Button 
-              className={classes.googleButton} 
-              color="primary" 
-              fullWidth 
-              onClick={renderProps.onClick} 
-              disabled={renderProps.disabled} 
-              startIcon={<Icon />} 
-              variant="contained">
-                Google Sign In
+                className={classes.googleButton} 
+                color="primary" 
+                fullWidth 
+                onClick={renderProps.onClick} 
+                disabled={renderProps.disabled} 
+                startIcon={<Icon />} 
+                variant="contained"
+              >
+              Google Sign In
               </Button>
             )}
             onSuccess={googleSuccess}

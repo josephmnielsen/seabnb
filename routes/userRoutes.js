@@ -15,6 +15,9 @@ router.get('/users/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
+//sign in
+router.post('/signin', signin)
+
 // create new user
 router.post('/users', (req, res) => {
   User.create(req.body)

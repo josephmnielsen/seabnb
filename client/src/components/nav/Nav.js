@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useState} from 'react'
+// import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Avatar, Button, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -25,22 +25,22 @@ const Navbar = () => {
 
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const location = useLocation()
+  // const dispatch = useDispatch
+  // const history = useHistory()
+  // const location = useLocation()
 
   const logout = () => {
-    dispatch({type: 'LOGOUT' })
+    // dispatch({type: 'LOGOUT' })
   }
-  history.push('/')
+  // history.push('/')
 
-  setUser(null)
+  // setUser(null)
 
-  useEffect(() => {
-    const token = user?.token
+  // useEffect(() => {
+    // const token = user?.token
   
-    setUser(JSON.parse(localStorage.getItem('profile')))
-  }, [location])
+    // setUser(JSON.parse(localStorage.getItem('profile')))
+  // }, [location])
 
 
   return (

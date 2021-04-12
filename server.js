@@ -1,12 +1,30 @@
 require('dotenv').config()
 const express = require('express')
 const { join } = require('path')
-
+const passport = require('passport')
+const { Strategy: localStrategy } = require('passport-local')
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
+const { User } = require('./models')
 const app = express()
 
 app.use(express.static(join(__dirname, 'client', 'build' )))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(new localStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+passport.use(new JwtStrategy({
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.SECRET
+}, ({ id }, cb) => User.findById(id)
+  .populate('posts')
+  .then(user => cb(null, user))
+  .catch(err => cb(err))))
 
 app.use(require('./routes'))
 

@@ -9,11 +9,8 @@ const User = new Schema({
     type: String,
     required: true
   },
-  phone: {
-    type: Number,
-    required: true
-  },
-  boats: [
+
+  boat: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Boat'
@@ -21,5 +18,7 @@ const User = new Schema({
   ]
 
 })
+
+User.plugin(require('passport-local-mongoose'))
 
 module.exports = model('User', User)
