@@ -5,9 +5,8 @@ import {
 } from 'react-router-dom'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
 import Navbar from './components/nav'
+import Auth from './components/auth/Auth'
 
 const App = () => {
   return (
@@ -15,18 +14,9 @@ const App = () => {
       <div>
         <Navbar />
         <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Route path='/profile'>
-            <Profile />
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route>
-            <Signup />
-          </Route>
+          <Route exact path='/' component={Home} />
+          <Route path='/profile' exact component={Profile} />
+          <Route path='/auth' exact component={Auth} />
         </Switch>
       </div>
     </Router>

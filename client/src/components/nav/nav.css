@@ -1,8 +1,4 @@
-img {
-  height: 50%;
+.logo {
+  height: 50px;
   width: auto
-}
-
-Button {
-  color: white
 }

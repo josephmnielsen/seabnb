@@ -1,6 +1,11 @@
+import Logo from '../components/images/sbLogo.png'
+
 const Home = () => {
   return (
-    <h1>Hello World!</h1>
+    <>
+  <h1>Welcome to</h1>
+  <img src={Logo} alt="Logo"></img> 
+  </>
   )
 }
 

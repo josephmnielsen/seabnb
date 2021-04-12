@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import { AppBar, Toolbar, Typography, Avatar, Button, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logo from '../../components/images/sbLogo.png'
 import './nav.css'
@@ -18,30 +16,54 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  }
+    marginLeft: 590,
+  }, 
 
 }));
 
 const Navbar = () => {
 
   const classes = useStyles();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation()
+
+  const logout = () => {
+    dispatch({type: 'LOGOUT' })
+  }
+  history.push('/')
+
+  setUser(null)
+
+  useEffect(() => {
+    const token = user?.token
+  
+    setUser(JSON.parse(localStorage.getItem('profile')))
+  }, [location])
+
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            <img src={Logo} alt="logo" />
+          <Typography className={classes.title}>
+            <Link to='/'>
+            <img src={Logo} alt="logo" className="logo" />
+            </Link>
           </Typography>
-          <Link to='/login'>
-          <Button>Login</Button>
-          </Link>
-          <Link to='/signup'>
-          <Button>Sign up</Button>
-          </Link>
+          {user ? (
+            <div>
+              <Avatar alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
+              <Typography variant="h6">{user.result.name}</Typography>
+              <Button variant="contained" color="secondary" onClick={logout}>Log out</Button>
+            </div>
+          ) : (
+            <Button component={Link} to="/auth" variant="contained" color="primary">Sign in</Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
