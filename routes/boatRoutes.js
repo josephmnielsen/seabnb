@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const { Boat, User } = require('../models')
+const passport = require('passport')
 
 // get all boats
-router.get('/boats', (req, res) => {
+router.get('/boats', passport.authenticate('jwt'), (req, res) => {
   Boat.find({})
     .then(boats => res.json(boats))
     .catch(err => console.log(err))
@@ -16,9 +17,21 @@ router.get('/boats/:id', (req, res) => {
 })
 
 // create new boat
-router.post('/boats', (req, res) => {
-  Boat.create(req.body)
-    .then(boat => res.json(boat))
+router.post('/boats', passport.authenticate('jwt'), (req, res) => {
+  Boat.create({
+    name: req.body.name,
+    boatType: req.body.type,
+    size: req.body.size,
+    sleeps: req.body.sleeps,
+    description: req.body.description,
+    location: req.body.location,
+    owner: req.user._id
+  })
+    .then(boat => {
+      User.findByIdAndUpdate(req.user._id, { $push: {boats: boat._id } })
+      .then(() => res.json(boat))
+      .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
 })
 

@@ -5,7 +5,7 @@ const Boat = new Schema({
     type: String,
     required: true
   },
-  type: {
+  boatType: {
     type: String,
     required: true
   },
