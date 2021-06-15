@@ -31,8 +31,8 @@ router.get('/users', passport.authenticate('jwt'), (req, res) => {
 
 // create new user
 router.post('/users/register', (req, res) => {
-  const { name, email } = req.body
-  User.register(new User({name, email}), req.body.password, err => {
+
+  User.register(new User(req.body.name, req.body.email), req.body.password, err => {
     if (err) { console.log(err)}
     res.sendStatus(200)
   })
